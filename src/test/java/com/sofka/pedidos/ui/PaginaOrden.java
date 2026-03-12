@@ -4,6 +4,9 @@ import net.serenitybdd.screenplay.targets.Target;
 
 public class PaginaOrden {
 
+    public static final Target MENSAJE_PEDIDO_CONFIRMADO = Target.the("mensaje de pedido confirmado")
+            .locatedBy("//*[contains(normalize-space(.), 'Pedido confirmado')]");
+
     public static final Target BOTON_VER_ESTADO = Target.the("botón Ver estado")
             .locatedBy("//button[contains(normalize-space(.), 'Ver estado')]");
 
