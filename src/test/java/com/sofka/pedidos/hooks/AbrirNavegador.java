@@ -20,7 +20,7 @@ public class AbrirNavegador implements Task {
         );
     }
 
-    public static AbrirNavegador AbrirUrl(String url) {
+    public static AbrirNavegador abrirUrl(String url) {
         return Tasks.instrumented(AbrirNavegador.class, url);
     }
     

@@ -6,9 +6,15 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actors.OnStage;
+import com.sofka.pedidos.hooks.AbrirNavegador;
+import com.sofka.pedidos.questions.ConfirmacionOrden;
+import com.sofka.pedidos.tasks.AgregarNotaAdicional;
+import com.sofka.pedidos.tasks.AgregarProducto;
+import com.sofka.pedidos.util.Constantes;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.Matchers.is;
+import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
 
 public class OrdenStepDefinition {
 
@@ -16,26 +22,29 @@ public class OrdenStepDefinition {
 
     @Given("que el cliente accede a la aplicacion del restaurante Sofka")
     public void elClienteAccedeALaAplicacion() {
-        // El cliente accede a la aplicación del restaurante Sofka
+        OnStage.theActorCalled(Constantes.ACTOR).attemptsTo(
+            AbrirNavegador.abrirUrl(Constantes.URL_BASE)
+        );
     }
 
-    @When("hace clic en Iniciar y selecciona la mesa numero {string}")
-    public void haceClicEnIniciarYSeleccionaMesa(String numeroDeMesa) {
-        // El cliente hace clic en "Iniciar" y selecciona la mesa número proporcionada
+    @When("hace clic en Iniciar, selecciona la mesa numero {string} y agrega el primer producto disponible al carrito")
+    public void haceClicEnIniciarSeleccionaMesaYAgregaProducto(String numeroDeMesa) {
+        theActorInTheSpotlight().attemptsTo(
+            AgregarProducto.agregarProducto(numeroDeMesa)
+        );
     }
 
-    @And("elige un producto del menu y lo agrega al carrito")
-    public void eligeUnProductoYLoAgregaAlCarrito() {
-        // El cliente elige un producto del menú y lo agrega al carrito
-    }
-
-    @And("registra la nota {string} antes de confirmar")
-    public void registraLaNotaYConfirma(String nota) {
-        // El cliente registra una nota antes de confirmar el pedido
+    @And("registra la nota {string} y confirma el pedido")
+    public void registraLaNotaYConfirmaElPedido(String nota) {
+        theActorInTheSpotlight().attemptsTo(
+            AgregarNotaAdicional.agregarNotaAdicional(nota)
+        );
     }
 
     @Then("el sistema confirma exitosamente el pedido realizado")
     public void elSistemaConfirmaElPedido() {
-        // El sistema confirma exitosamente el pedido realizado
+        theActorInTheSpotlight().should(
+            seeThat(ConfirmacionOrden.estaVisible(), is(true))
+        );
     }
 }
