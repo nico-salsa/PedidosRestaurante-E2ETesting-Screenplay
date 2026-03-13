@@ -7,6 +7,6 @@ Feature: El cliente realiza un pedido completo en el restaurante y recibe confir
     Then el sistema confirma exitosamente el pedido realizado
 
     Examples:
-      | mesa | nota                      |
-      | 3    | "Sin cebolla, por favor"  |
-      | 7    | ""                        |
+      | mesa | nota                    |
+      | 3    | Sin cebolla, por favor  |
+      | 7    |                         |
